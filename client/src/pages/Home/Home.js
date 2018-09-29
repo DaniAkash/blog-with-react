@@ -26,6 +26,8 @@ class Home extends Component {
                 posts,
                 loading: false,
                 hasError: false,
+            }, () => {
+                console.log(this.state.posts);
             })
         })
         .catch(err => {
