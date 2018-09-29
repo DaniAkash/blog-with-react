@@ -12,6 +12,7 @@ import Home from './pages/Home/Home';
 import PropTypes from 'prop-types';
 import Authors from './pages/Authors/Authors';
 import Post from './pages/Post/Post';
+import NewPost from './pages/NewPost/NewPost';
 
 class App extends Component {
 
@@ -79,6 +80,11 @@ class App extends Component {
           exact
           path={routes.post} 
           component={Post} 
+        />
+        <Route 
+          exact
+          path={routes.newPost} 
+          component={NewPost} 
         />
       </div>
     );
