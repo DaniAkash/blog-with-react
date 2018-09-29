@@ -1,9 +1,69 @@
 import React, {Component} from 'react';
+import apiCall from '../../services/apiCall';
+import LoadingIndicator from '../../CommonComponents/LoadingIndicator';
+import PostSummary from '../../CommonComponents/PostSummary';
+import ErrorMessage from '../../CommonComponents/ErrorMessage';
 
 class Home extends Component {
+
+    constructor() {
+        super();
+
+        this.state = {
+            posts: [],
+            loading: false,
+            hasError: false,
+        };
+    }
+
+    componentDidMount() {
+        this.setState({
+            loading: true,
+        })
+        apiCall('posts')
+        .then(posts => {
+            this.setState({
+                posts,
+                loading: false,
+                hasError: false,
+            })
+        })
+        .catch(err => {
+            this.setState({
+                loading: false,
+                hasError: true,
+            })
+        })
+    }
+
     render() {
         return (
-            <h1>{`Home`}</h1>
+            <div className={`posts-container container`}>
+                {
+                    this.state.loading
+                    ?
+                    <LoadingIndicator/>
+                    :
+                    null
+                }
+                {
+                    this.state.hasError
+                    ?
+                        <ErrorMessage 
+                            title={'Error!'} 
+                            message={'Unable to retrieve posts!'} 
+                        />
+                    :
+                        null
+                }
+                {
+                    this.state.posts.map(post => 
+                        <PostSummary 
+                            key={post.id} 
+                            post={post}>Post</PostSummary>
+                        )
+                }
+            </div>
         )
     }
 }
