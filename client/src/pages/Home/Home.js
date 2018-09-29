@@ -62,8 +62,9 @@ class Home extends Component {
                     this.state.posts.map(post => 
                         <PostSummary 
                             key={post.id} 
-                            post={post}>Post</PostSummary>
-                        )
+                            post={post}
+                        />
+                    )
                 }
             </div>
         )
