@@ -38,7 +38,7 @@ class App extends Component {
     if(this.props.location.pathname === '/') {
       this.props.history.replace(routes.home);
     }
-    this.props.postActions.getPosts();
+    this.props.postActions.getAllPosts();
   }
 
   toggle = () => {
