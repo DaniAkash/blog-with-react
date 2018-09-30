@@ -12,13 +12,22 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { Provider } from 'react-redux';
 import configureStore from './redux/store/configureStore';
 
+/**
+ * Imports for redux persist
+ */
+import { persistStore } from 'redux-persist'
+import { PersistGate } from 'redux-persist/integration/react';
+
 const store = configureStore();
+const persistor = persistStore(store);
 
 ReactDOM.render(
     <Provider store={store}>
-        <BrowserRouter>
-            <App />
-        </BrowserRouter>
+        <PersistGate loading={null} persistor={persistor}>
+            <BrowserRouter>
+                <App />
+            </BrowserRouter>
+        </PersistGate>
     </Provider>, 
     document.getElementById('root')
 );
