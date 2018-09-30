@@ -9,7 +9,17 @@ import SuccessMessage from '../../CommonComponents/SuccessMessage';
 import LoadingIndicator from '../../CommonComponents/LoadingIndicator';
 import PostInputField from './Components/PostInputField';
 
+import {connect} from 'react-redux';
+import { bindActionCreators } from 'redux';
+import * as postActions from '../../redux/actions/postActions';
+
 class NewPost extends Component {
+
+  static propTypes = {
+    postActions: PropTypes.object.isRequired,
+    loading: PropTypes.bool.isRequired,
+    hasError: PropTypes.bool.isRequired,
+  }
 
   constructor() {
     super();
@@ -19,9 +29,7 @@ class NewPost extends Component {
       title: '',
       content: '',
       noOfLines: 0,
-      loading: false,
       success: false,
-      hasError: false,
     };
     this.editAuthorName = this.editAuthorName.bind(this);
     this.editContent = this.editContent.bind(this);
@@ -43,21 +51,7 @@ class NewPost extends Component {
         datetime: epoch,
       };
 
-      apiCall(`post`, 'POST', body)
-      .then(() => {
-        this.setState({
-          author: '',
-          title: '',
-          content: '',
-          noOfLines: 0,
-          loading: false,
-          success: true,
-        });
-      })
-      .catch(error => {
-        this.setState({hasError: true, loading: false});
-        console.error(error);
-      });
+      this.props.postActions.addNewPost(body);
 
     } else {
       alert('Please Fill in all the fields');
@@ -75,6 +69,21 @@ class NewPost extends Component {
 
   editTitle(event) {
     this.setState({title: event.target.value});
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if(this.props !== nextProps) {
+      if(nextProps.loading === false && nextProps.hasError === false) {
+        this.setState({
+          success: true,
+          author: '',
+          title: '',
+          content: '',
+        });
+      } else if(nextProps.loading === false && nextProps.hasError === true) {
+        this.setState({success: false});
+      }
+    }
   }
 
   render() {
@@ -107,7 +116,7 @@ class NewPost extends Component {
         </div>
 
         {
-          this.state.loading
+          this.props.loading
           ?
             <LoadingIndicator />
           :
@@ -115,7 +124,7 @@ class NewPost extends Component {
         }
 
         {
-          this.state.hasError
+          this.props.hasError
           ?
             <ErrorMessage title={'Error!'} message={`Unable to submit post!`} />
           :
@@ -135,4 +144,19 @@ class NewPost extends Component {
   }
 }
 
-export default NewPost;
+function mapStateToProps(state) {
+  return {
+    loading: state.ajaxCalls.addPost.loading,
+    hasError: state.ajaxCalls.addPost.hasError,
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    postActions: bindActionCreators(postActions, dispatch),
+  };
+}
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(NewPost);

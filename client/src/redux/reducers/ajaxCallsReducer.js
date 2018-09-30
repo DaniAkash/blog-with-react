@@ -60,7 +60,33 @@ const ajaxCallsReducer = (
                     hasError: true,
                 },
             };
+            
+        case actionTypes.ADD_POST_AJAX_CALL_START:
+            return {
+                ...state,
+                addPost: {
+                    loading: true,
+                    hasError: false,
+                },
+            };
 
+        case actionTypes.ADD_POST_AJAX_CALL_SUCCESS:
+            return {
+                ...state,
+                addPost: {
+                    loading: false,
+                    hasError: false,
+                },
+            };
+
+        case actionTypes.ADD_POST_AJAX_CALL_FAILURE:
+            return {
+                ...state,
+                addPost: {
+                    loading: false,
+                    hasError: true,
+                },
+            };
         default:
             return state;
     }
