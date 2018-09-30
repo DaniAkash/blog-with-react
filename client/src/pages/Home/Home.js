@@ -8,27 +8,18 @@ import {connect} from 'react-redux';
 
 class Home extends Component {
 
-    constructor() {
-        super();
-
-        this.state = {
-            loading: false,
-            hasError: false,
-        };
-    }
-
     render() {
         return (
             <div className={`posts-container container`}>
                 {
-                    this.state.loading
+                    this.props.loading
                     ?
                     <LoadingIndicator/>
                     :
                     null
                 }
                 {
-                    this.state.hasError
+                    this.props.hasError
                     ?
                         <ErrorMessage 
                             title={'Error!'} 
@@ -52,7 +43,9 @@ class Home extends Component {
 
 const mapStateToProps = (state) => {
     return {
-        posts: state.posts
+        posts: state.posts,
+        loading: state.ajaxCalls.getAllPosts.loading,
+        hasError: state.ajaxCalls.getAllPosts.hasError,
     };
 };
 
