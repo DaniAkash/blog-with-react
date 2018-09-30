@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
 import apiCall from '../../services/apiCall';
 import LoadingIndicator from '../../CommonComponents/LoadingIndicator';
 import ErrorMessage from '../../CommonComponents/ErrorMessage';
+import { connect } from 'react-redux';
 
 class Post extends Component {
 
@@ -15,48 +16,18 @@ class Post extends Component {
         match: PropTypes.object.isRequired,
     }
 
-    constructor() {
-        super();
-
-        this.state = {
-            post: {},
-            loading: false,
-            hasError: false,
-        };
-    }    
-
-    componentDidMount() {
-        this.setState({
-            loading: true,
-        });
-        apiCall(`post/${this.props.match.params.id}`)
-        .then(data => {
-            this.setState({
-                loading: false,
-                post: data,
-                hasError: false,
-            });
-        })
-        .catch(err => {
-            this.setState({
-                loading: false,
-                hasError: true,
-            });
-        });
-    }
-
     render() {
         return (
             <div className={`posts-container container`}>
                 {
-                    this.state.loading
+                    this.props.loading
                     ?
                     <LoadingIndicator/>
                     :
                     null
                 }
                 {
-                    this.state.hasError
+                    this.props.hasError
                     ?
                         <ErrorMessage 
                             title={'Error!'} 
@@ -65,12 +36,32 @@ class Post extends Component {
                     :
                         null
                 }
-                <h2>{this.state.post.title}</h2>
-                <p>{this.state.post.author}</p>
-                <p>{this.state.post.content}</p>
+                {
+                    this.props.post
+                    ?
+                        <div>
+                            <h2>{this.props.post.title}</h2>
+                            <p>{this.props.post.author}</p>
+                            <p>{this.props.post.content}</p>
+                        </div>
+                    :
+                        null
+                }
             </div>
         )
     }
 }
 
-export default withRouter(Post);
+const mapStateToProps = (state, ownProps) => {
+    return {
+        post: state.posts.find(
+            post => post.id === ownProps.match.params.id
+        ),
+        loading: state.ajaxCalls.getAllPosts.loading,
+        hasError: state.ajaxCalls.getAllPosts.hasError,
+    }
+};
+
+export default withRouter(
+    connect(mapStateToProps)(Post)
+);
