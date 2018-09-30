@@ -12,35 +12,9 @@ class Home extends Component {
         super();
 
         this.state = {
-            posts: [],
             loading: false,
             hasError: false,
         };
-    }
-
-    componentDidMount() {
-
-        console.log(this.props.posts);
-
-        this.setState({
-            loading: true,
-        })
-        apiCall('posts')
-        .then(posts => {
-            this.setState({
-                posts,
-                loading: false,
-                hasError: false,
-            }, () => {
-                console.log(this.state.posts);
-            })
-        })
-        .catch(err => {
-            this.setState({
-                loading: false,
-                hasError: true,
-            })
-        })
     }
 
     render() {
@@ -64,7 +38,7 @@ class Home extends Component {
                         null
                 }
                 {
-                    this.state.posts.map(post => 
+                    this.props.posts.map(post => 
                         <PostSummary 
                             key={post.id} 
                             post={post}
@@ -82,13 +56,6 @@ const mapStateToProps = (state) => {
     };
 };
 
-const mapDispatchToProps = () => {
-    return {
-
-    };
-}
-
 export default connect(
     mapStateToProps,
-    mapDispatchToProps, // optional
 )(Home);

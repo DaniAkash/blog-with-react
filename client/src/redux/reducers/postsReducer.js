@@ -1,10 +1,17 @@
 import initialState from '../store/initialState';
+import actionTypes from '../actionTypes/actionTypes';
 
 const postsReducer = (
     state = initialState.posts, 
     action) => {
         
-    return state;
+    switch(action.type) {
+        case actionTypes.GET_POSTS:
+            return action.payload.posts;
+
+        default:
+            return state;
+    }
 }
 
 export default postsReducer;
