@@ -4,6 +4,8 @@ import LoadingIndicator from '../../CommonComponents/LoadingIndicator';
 import PostSummary from '../../CommonComponents/PostSummary';
 import ErrorMessage from '../../CommonComponents/ErrorMessage';
 
+import {connect} from 'react-redux';
+
 class Home extends Component {
 
     constructor() {
@@ -17,6 +19,9 @@ class Home extends Component {
     }
 
     componentDidMount() {
+
+        console.log(this.props.posts);
+
         this.setState({
             loading: true,
         })
@@ -71,4 +76,19 @@ class Home extends Component {
     }
 }
 
-export default Home;
+const mapStateToProps = (state) => {
+    return {
+        posts: state.posts
+    };
+};
+
+const mapDispatchToProps = () => {
+    return {
+
+    };
+}
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps, // optional
+)(Home);
