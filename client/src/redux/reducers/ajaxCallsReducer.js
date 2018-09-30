@@ -5,7 +5,7 @@ const ajaxCallsReducer = (
     state = initialState.ajaxCalls,
     action
 ) => {
-    switch(action.type) {
+    switch (action.type) {
 
         case actionTypes.GET_POSTS_AJAX_CALL_START:
             return {
@@ -29,6 +29,33 @@ const ajaxCallsReducer = (
             return {
                 ...state,
                 getAllPosts: {
+                    loading: false,
+                    hasError: true,
+                },
+            };
+
+        case actionTypes.GET_AUTHORS_AJAX_CALL_START:
+            return {
+                ...state,
+                getAuthors: {
+                    loading: true,
+                    hasError: false,
+                },
+            };
+
+        case actionTypes.GET_AUTHORS_AJAX_CALL_SUCCESS:
+            return {
+                ...state,
+                getAuthors: {
+                    loading: false,
+                    hasError: false,
+                },
+            };
+
+        case actionTypes.GET_AUTHORS_AJAX_CALL_FAILURE:
+            return {
+                ...state,
+                getAuthors: {
                     loading: false,
                     hasError: true,
                 },

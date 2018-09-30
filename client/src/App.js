@@ -17,6 +17,7 @@ import NewPost from './pages/NewPost/NewPost';
 import {connect} from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as postActions from './redux/actions/postActions';
+import * as authorActions from './redux/actions/authorActions';
 
 class App extends Component {
 
@@ -39,6 +40,7 @@ class App extends Component {
       this.props.history.replace(routes.home);
     }
     this.props.postActions.getAllPosts();
+    this.props.authorActions.getAllAuthors();
   }
 
   toggle = () => {
@@ -105,6 +107,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = dispatch => {
   return {
     postActions: bindActionCreators(postActions, dispatch),
+    authorActions: bindActionCreators(authorActions, dispatch),
   };
 };
 
