@@ -18,6 +18,7 @@ import {connect} from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as postActions from './redux/actions/postActions';
 import * as authorActions from './redux/actions/authorActions';
+import Author from './pages/Author/Author';
 
 class App extends Component {
 
@@ -92,6 +93,11 @@ class App extends Component {
           exact
           path={routes.newPost} 
           component={NewPost} 
+        />
+        <Route 
+          exact
+          path={routes.author} 
+          component={Author} 
         />
       </div>
     );
