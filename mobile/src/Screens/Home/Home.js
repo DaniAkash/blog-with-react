@@ -1,11 +1,12 @@
 import React, {Component} from 'react';
 import {
-    Text
+    FlatList,
 } from 'react-native';
 
 import {connect} from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as postActions from '../../redux/actions/postActions';
+import Post from '../../CommonComponents/Post';
 
 class Home extends Component {
 
@@ -13,10 +14,28 @@ class Home extends Component {
         this.props.postActions.getAllPosts();
     }
 
+    _keyExtractor = (item, index) => item.id;
+
+    _renderItem = ({item}) => {
+        const clickAction = () => null;
+        return (
+            <Post 
+                clickAction={clickAction}
+                title={item.title}
+                author={item.author}
+                content={item.content}
+            />
+        )
+    };
+
     render() {
         return (
-            <Text>Home</Text>
-        );
+            <FlatList
+                data={this.props.posts}
+                keyExtractor={this._keyExtractor}
+                renderItem={this._renderItem}
+            />
+        )
     }
 }
 

@@ -8,6 +8,7 @@
     "run-android": "react-native run-android"
   },
   "dependencies": {
+    "prop-types": "^15.6.2",
     "react": "16.6.3",
     "react-native": "0.58.4",
     "react-native-gesture-handler": "^1.0.15",
