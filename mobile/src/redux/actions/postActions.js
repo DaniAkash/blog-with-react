@@ -41,3 +41,41 @@ export const postsApiCallFailure = () => {
         type: actionTypes.GET_POSTS_AJAX_CALL_FAILURE,
     };
 };
+
+export const addNewPost = (body) => {
+    return dispatch => {
+
+        dispatch(addPostApiCallStart());
+
+        apiCall(`post`, 'POST', body)
+            .then(() => {
+
+                dispatch(addPostApiCallSuccess());
+                dispatch(getAllPosts());
+
+            })
+            .catch(error => {
+
+                dispatch(addPostApiCallFailure());
+
+            });
+    };
+};
+
+export const addPostApiCallStart = () => {
+    return {
+        type: actionTypes.ADD_POST_AJAX_CALL_START
+    };
+};
+
+export const addPostApiCallSuccess = () => {
+    return {
+        type: actionTypes.ADD_POST_AJAX_CALL_SUCCESS
+    };
+};
+
+export const addPostApiCallFailure = () => {
+    return {
+        type: actionTypes.ADD_POST_AJAX_CALL_FAILURE
+    };
+};

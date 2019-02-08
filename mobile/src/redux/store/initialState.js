@@ -7,6 +7,10 @@ const initialState = {
             loading: false,
             hasError: false,
         },
+        addPost: {
+            loading: false,
+            hasError: false,
+        },
     },
 };
 
