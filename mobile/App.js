@@ -1,7 +1,8 @@
 import React from 'react';
 import { 
   createDrawerNavigator, 
-  createAppContainer 
+  createAppContainer,
+  createStackNavigator
 } from 'react-navigation';
 import Home from './src/Screens/Home/Home';
 import Authors from './src/Screens/Authors/Authors';
@@ -11,14 +12,22 @@ import { Provider } from 'react-redux';
 
 const Drawer = createDrawerNavigator({
   Home: {
-    screen: Home
+    screen: createStackNavigator({
+      HomeStack: {
+        screen: Home
+      }
+    })
   },
-  Authors: {
-    screen: Authors
-  },
-  NewPost: {
-    screen: NewPost
-  }
+  Authors: createStackNavigator({
+    AuthorStack: {
+      screen: Authors
+    }
+  }),
+  NewPost: createStackNavigator({
+    NewPostStack: {
+      screen: NewPost
+    }
+  })
 });
 
 const AppNavigator = createAppContainer(Drawer);

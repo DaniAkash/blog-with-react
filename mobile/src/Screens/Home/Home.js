@@ -7,8 +7,11 @@ import {connect} from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as postActions from '../../redux/actions/postActions';
 import Post from '../../CommonComponents/Post';
+import navigationOptions from '../../CommonComponents/CommonHeader';
 
 class Home extends Component {
+
+    static navigationOptions = navigationOptions;
 
     componentDidMount() {
         this.props.postActions.getAllPosts();
