@@ -6,7 +6,7 @@ import navigationOptions from '../../CommonComponents/CommonHeader';
 
 class Authors extends Component {
 
-    static navigationOptions = navigationOptions;
+    static navigationOptions = ({navigation}) => navigationOptions({navigation, title: "Authors"});
 
     render() {
         return (

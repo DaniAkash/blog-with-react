@@ -11,7 +11,7 @@ import navigationOptions from '../../CommonComponents/CommonHeader';
 
 class Home extends Component {
 
-    static navigationOptions = navigationOptions;
+    static navigationOptions = ({navigation}) => navigationOptions({navigation, title: "Home"});
 
     componentDidMount() {
         this.props.postActions.getAllPosts();

@@ -4,9 +4,9 @@ import {
 } from 'react-native';
 import { DrawerActions } from 'react-navigation-drawer';
 
-const navigationOptions = ({navigation}) => {
+const navigationOptions = ({navigation, title}) => {
     return {
-        title: "My App",
+        title,
         headerLeft: (
             <Button
               onPress={() => navigation.dispatch(DrawerActions.toggleDrawer())}

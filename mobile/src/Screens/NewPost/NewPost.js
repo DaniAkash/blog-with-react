@@ -6,7 +6,7 @@ import navigationOptions from '../../CommonComponents/CommonHeader';
 
 class NewPost extends Component {
 
-    static navigationOptions = navigationOptions;
+    static navigationOptions = ({navigation}) => navigationOptions({navigation, title: "New Post"});
 
     render() {
         return (
