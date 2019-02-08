@@ -34,6 +34,10 @@ class Home extends Component {
                 data={this.props.posts}
                 keyExtractor={this._keyExtractor}
                 renderItem={this._renderItem}
+                refreshing={this.props.loading}
+                onRefresh={() => {
+                    this.props.postActions.getAllPosts();
+                }}
             />
         )
     }
@@ -41,7 +45,9 @@ class Home extends Component {
 
 const mapStateToProps = state => {
     return {
-        posts: state.posts
+        posts: state.posts,
+        loading: state.ajaxCalls.getAllPosts.loading,
+        hasError: state.ajaxCalls.getAllPosts.hasError
     };
 };
 
