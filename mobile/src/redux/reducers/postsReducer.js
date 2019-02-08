@@ -4,7 +4,7 @@ import actionTypes from '../actionTypes/actionTypes';
 const postsReducer = (state = initialState.posts, action) => {
     switch(action.type) {
         case actionTypes.GET_POSTS:
-            return action.payload
+            return action.payload.posts;
 
         default:
             return state;

@@ -14,7 +14,7 @@ const apiCall = (route, method="GET", body={}) => {
             requestDetails.body = JSON.stringify(body);
         }
 
-        const serverUrl = "http://127.0.0.1:10010";
+        const serverUrl = "http://localhost:10010";
 
         const handleErrors = response => {
             if(response.ok) {
