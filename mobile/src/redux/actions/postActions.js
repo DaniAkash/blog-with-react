@@ -42,7 +42,7 @@ export const postsApiCallFailure = () => {
     };
 };
 
-export const addNewPost = (body) => {
+export const addNewPost = (body, successCallback) => {
     return dispatch => {
 
         dispatch(addPostApiCallStart());
@@ -52,6 +52,7 @@ export const addNewPost = (body) => {
 
                 dispatch(addPostApiCallSuccess());
                 dispatch(getAllPosts());
+                successCallback();
 
             })
             .catch(error => {

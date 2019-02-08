@@ -3,9 +3,15 @@ import {
     ScrollView,
     View,
     TextInput,
-    Button
+    Button,
+    Text
 } from 'react-native';
 import navigationOptions from '../../CommonComponents/CommonHeader';
+import uuidv4 from 'uuid/v4';
+
+import {connect} from 'react-redux';
+import { bindActionCreators } from 'redux';
+import * as postActions from '../../redux/actions/postActions';
 
 class NewPost extends Component {
 
@@ -21,7 +27,28 @@ class NewPost extends Component {
     _content = React.createRef();
 
     submit = () => {
-
+        const {title, author, content} = this.state;
+        if(title && author && content) {
+            const date = new Date();
+            const epoch = (date.getTime()/1000).toFixed(0).toString();
+            const body = {
+                id: uuidv4(),
+                title,
+                author,
+                content,
+                datetime: epoch
+            };
+            this.props.postActions.addNewPost(body, () => {
+                this.setState({
+                    title: "", 
+                    author: "", 
+                    content: ""
+                });
+                this.props.navigation.navigate('HomeStack');
+            });
+        } else {
+            alert('Please fill in all the fields');
+        }
     };
 
     render() {
@@ -33,7 +60,7 @@ class NewPost extends Component {
                     onChangeText={(title) => this.setState({title})}
                     ref={this._title}
                     onSubmitEditing={() => {
-                        this.refs.current._author.focus();
+                        this._author.current.focus();
                     }}
                     returnKeyType={'next'}
                 />
@@ -43,7 +70,7 @@ class NewPost extends Component {
                     onChangeText={(author) => this.setState({author})}
                     ref={this._author}
                     onSubmitEditing={() => {
-                        this.refs.current._content.focus();
+                        this._content.current.focus();
                     }}
                     returnKeyType={'next'}
                 />
@@ -60,15 +87,36 @@ class NewPost extends Component {
                 />
 
                 <View style={{width: 100}}>
-                    <Button
-                        onPress={()=> this.submit()}
-                        title="Submit"
-                        color="#841584"
-                    />
+                {
+                    this.props.loading
+                    ?
+                        <Text>Submitting...</Text>
+                    :
+                        <Button
+                            onPress={()=> this.submit()}
+                            title="Submit"
+                            color="#841584"
+                        />
+                }
                 </View>
             </ScrollView>
         );
     }
 }
 
-export default NewPost;
+const mapStateToProps = state => {
+    return {
+        loading: state.ajaxCalls.addPost.loading,
+        hasError: state.ajaxCalls.addPost.hasError
+    };
+};
+
+const mapDispatchToProps = dispatch => {
+    return {
+        postActions: bindActionCreators(postActions, dispatch),
+    };
+};
+
+const connector = connect(mapStateToProps, mapDispatchToProps);
+
+export default connector(NewPost);
