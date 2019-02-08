@@ -10,6 +10,9 @@ import NewPost from './src/Screens/NewPost/NewPost';
 import configureStore from './src/redux/store/configureStore';
 import { Provider } from 'react-redux';
 
+import { persistStore } from 'redux-persist'
+import { PersistGate } from 'redux-persist/integration/react';
+
 const Drawer = createDrawerNavigator({
   Home: {
     screen: createStackNavigator({
@@ -34,10 +37,14 @@ const AppNavigator = createAppContainer(Drawer);
 
 const store = configureStore();
 
+const persistor = persistStore(store);
+
 const App = () => {
   return (
     <Provider store={store}>
-      <AppNavigator/>
+      <PersistGate loading={null} persistor={persistor}>
+        <AppNavigator/>
+      </PersistGate>
     </Provider>
   );
 };
