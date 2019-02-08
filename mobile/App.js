@@ -1,3 +1,4 @@
+import React from 'react';
 import { 
   createDrawerNavigator, 
   createAppContainer 
@@ -5,6 +6,8 @@ import {
 import Home from './src/Screens/Home/Home';
 import Authors from './src/Screens/Authors/Authors';
 import NewPost from './src/Screens/NewPost/NewPost';
+import configureStore from './src/redux/store/configureStore';
+import { Provider } from 'react-redux';
 
 const Drawer = createDrawerNavigator({
   Home: {
@@ -20,4 +23,14 @@ const Drawer = createDrawerNavigator({
 
 const AppNavigator = createAppContainer(Drawer);
 
-export default AppNavigator;
+const store = configureStore();
+
+const App = () => {
+  return (
+    <Provider store={store}>
+      <AppNavigator/>
+    </Provider>
+  );
+};
+
+export default App;
